@@ -131,7 +131,17 @@ async function saveJWK(keys: JWK[]) {
 }
 
 async function startServer(opts: Options) {
-  const server = new OAuth2Server(opts.key, opts.cert);
+  const server = new OAuth2Server(opts.key, opts.cert, {
+      endpoints: {
+        token: '/oauth2/default/token',
+        jwks: '/oauth2/default/jwks',
+        authorize: '/oauth2/default/authorize',
+        userinfo: '/oauth2/default/userinfo',
+        revoke: '/oauth2/default/revoke',
+        endSession: '/oauth2/default/endsession',
+        introspect: '/oauth2/default/introspect'
+      }
+    });
 
   await Promise.all(
     opts.keys.map(async (key) => {
